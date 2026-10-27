@@ -59,6 +59,7 @@ import com.notifvault.app.ui.screens.SettingsScreen
 import com.notifvault.app.ui.theme.NotificationVaultTheme
 import com.notifvault.app.util.Exporter
 import com.notifvault.app.util.NotificationAccess
+import java.nio.charset.Charsets
 import kotlinx.coroutines.launch
 
 class MainActivity : FragmentActivity() {
