@@ -29,8 +29,6 @@ jobs:
         uses: android-actions/setup-android@v3
         with:
           api-level: 37
-          build-tools-version: 37.0.0
-          cmdline-tools-version: latest
 
       - name: Accept Licenses
         run: yes | sdkmanager --licenses
@@ -67,8 +65,6 @@ jobs:
         uses: android-actions/setup-android@v3
         with:
           api-level: 37
-          build-tools-version: 37.0.0
-          cmdline-tools-version: latest
 
       - name: Accept Licenses
         run: yes | sdkmanager --licenses
@@ -106,8 +102,6 @@ jobs:
         uses: android-actions/setup-android@v3
         with:
           api-level: 37
-          build-tools-version: 37.0.0
-          cmdline-tools-version: latest
 
       - name: Accept Licenses
         run: yes | sdkmanager --licenses
