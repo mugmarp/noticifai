@@ -24,9 +24,10 @@ jobs:
           cache: gradle
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v2
         with:
           api-level: 37
+          build-tools-version: 37.0.0
 
       - name: Accept Licenses
         run: yes | sdkmanager --licenses
