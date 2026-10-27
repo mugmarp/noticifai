@@ -27,8 +27,6 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v4
-        with:
-          packages: platform-tools platform-tools-android-37 build-tools-37.0.0
 
       - name: Accept Licenses
         run: yes | sdkmanager --licenses
@@ -63,8 +61,6 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v4
-        with:
-          packages: platform-tools platform-tools-android-37 build-tools-37.0.0
 
       - name: Accept Licenses
         run: yes | sdkmanager --licenses
@@ -100,8 +96,6 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v4
-        with:
-          packages: platform-tools platform-tools-android-37 build-tools-37.0.0
 
       - name: Accept Licenses
         run: yes | sdkmanager --licenses
