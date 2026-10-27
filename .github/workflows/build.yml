@@ -26,7 +26,12 @@ jobs:
           cache: gradle
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v4
+        uses: android-actions/setup-android@v3
+        with:
+          api-level: 34
+          build-tools-version: 34.0.0
+          ndk-version: r26b
+          cmdline-tools-version: latest
 
       - name: Accept Licenses
         run: yes | sdkmanager --licenses
@@ -60,7 +65,12 @@ jobs:
           cache: gradle
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v4
+        uses: android-actions/setup-android@v3
+        with:
+          api-level: 34
+          build-tools-version: 34.0.0
+          ndk-version: r26b
+          cmdline-tools-version: latest
 
       - name: Accept Licenses
         run: yes | sdkmanager --licenses
@@ -95,7 +105,12 @@ jobs:
           cache: gradle
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v4
+        uses: android-actions/setup-android@v3
+        with:
+          api-level: 34
+          build-tools-version: 34.0.0
+          ndk-version: r26b
+          cmdline-tools-version: latest
 
       - name: Accept Licenses
         run: yes | sdkmanager --licenses
