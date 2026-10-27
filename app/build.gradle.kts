@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace = "com.notifvault.app"
-    compileSdk = 34
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.notifvault.app"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
     }
