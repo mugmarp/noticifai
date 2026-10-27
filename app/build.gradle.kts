@@ -43,7 +43,7 @@ android {
 dependencies {
     // Compose versions are managed by the Bill of Materials (BOM), so they are
     // never pinned individually here.
-    val composeBom = platform("androidx.compose:compose-bom:2024.02.00")
+    val composeBom = platform("androidx.compose:compose-bom:2025.02.00")
     implementation(composeBom)
 
     implementation("androidx.core:core-ktx:1.19.1")
