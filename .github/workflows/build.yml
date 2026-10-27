@@ -32,6 +32,7 @@ jobs:
           build-tools-version: 37.0.0
           ndk-version: r27c
           cmdline-tools-version: latest
+          cache: gradle
 
       - name: Accept Licenses
         run: yes | sdkmanager --licenses
@@ -68,6 +69,16 @@ jobs:
         uses: android-actions/setup-android@v3
         with:
           api-level: 37
+          build-tools-version: 37.0.0
+          ndk-version: r27c
+          cmdline-tools-version: latest
+          cache: gradle
+
+      - name: Accept Licenses
+        run: yes | sdkmanager --licenses
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
 
       - name: Run Unit Tests
         run: ./gradlew testDebugUnitTest --no-daemon
@@ -99,6 +110,16 @@ jobs:
         uses: android-actions/setup-android@v3
         with:
           api-level: 37
+          build-tools-version: 37.0.0
+          ndk-version: r27c
+          cmdline-tools-version: latest
+          cache: gradle
+
+      - name: Accept Licenses
+        run: yes | sdkmanager --licenses
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
 
       - name: Run Lint
         run: ./gradlew lintDebug --no-daemon
