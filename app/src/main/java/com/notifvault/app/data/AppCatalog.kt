@@ -36,8 +36,11 @@ class AppCatalog(context: Context) {
                 val pkg = appInfo.packageName ?: return@mapNotNull null
                 InstalledApp(
                     packageName = pkg,
-                    label = runCatching { pm.getApplicationLabel(appInfo).toString() }
-                        .getOrDefault(pkg),
+                    label = try {
+                        pm.getApplicationLabel(appInfo).toString()
+                    } catch (e: Exception) {
+                        pkg
+                    },
                     isSystem = (appInfo.flags and ApplicationInfo.FLAG_SYSTEM) != 0,
                 )
             }
@@ -48,22 +51,33 @@ class AppCatalog(context: Context) {
 
     /** Human-readable name for a package, falling back to the package name. */
     fun labelFor(packageName: String): String = labelCache.getOrPut(packageName) {
-        runCatching {
+        try {
             val info = packageManager.getApplicationInfo(packageName, 0)
             packageManager.getApplicationLabel(info).toString()
-        }.getOrDefault(packageName)
+        } catch (e: Exception) {
+            packageName
+        }
     }
 
     /** True when the app is currently installed (it may have been uninstalled). */
-    fun isInstalled(packageName: String): Boolean = runCatching {
-        packageManager.getApplicationInfo(packageName, 0)
-        true
-    }.getOrDefault(false)
+    fun isInstalled(packageName: String): Boolean {
+        return try {
+            packageManager.getApplicationInfo(packageName, 0)
+            true
+        } catch (e: Exception) {
+            false
+        }
+    }
 
     /** Launches an app by package name. Returns false if there is no launch intent. */
     fun launch(packageName: String): Boolean {
         val intent = packageManager.getLaunchIntentForPackage(packageName) ?: return false
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        return runCatching { appContext.startActivity(intent) }.isSuccess
+        return try {
+            appContext.startActivity(intent)
+            true
+        } catch (e: Exception) {
+            false
+        }
     }
 }

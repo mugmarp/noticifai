@@ -33,7 +33,6 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-import kotlin.Result.runCatching
 
 /** Human-friendly timestamps used across the History and Detail screens. */
 object TimeFormat {
@@ -100,10 +99,12 @@ fun AppIcon(
 ) {
     val context = LocalContext.current
     val bitmap = remember(packageName) {
-        runCatching {
+        try {
             val drawable = context.packageManager.getApplicationIcon(packageName)
             drawable.toBitmap(128, 128).asImageBitmap()
-        }.getOrNull()
+        } catch (e: Exception) {
+            null
+        }
     }
 
     if (bitmap != null) {
@@ -268,10 +269,12 @@ fun rememberAppLabel(packageName: String): String {
 }
 
 private fun resolveLabel(context: Context, packageName: String): String =
-    runCatching {
+    try {
         val info = context.packageManager.getApplicationInfo(packageName, 0)
         context.packageManager.getApplicationLabel(info).toString()
-    }.getOrDefault(packageName)
+    } catch (e: Exception) {
+        packageName
+    }
 
 /** A right-aligned label/value pair for settings rows. */
 @Composable

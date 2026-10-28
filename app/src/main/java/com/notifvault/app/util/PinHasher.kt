@@ -4,7 +4,6 @@ import android.util.Base64
 import java.security.SecureRandom
 import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.PBEKeySpec
-import kotlin.Result.runCatching
 
 /**
  * Hashes and verifies the app-lock PIN.
@@ -31,8 +30,8 @@ object PinHasher {
     fun verify(pin: String, stored: String): Boolean {
         val parts = stored.split(":")
         if (parts.size != 2) return false
-        val salt = runCatching { parts[0].fromBase64() }.getOrNull() ?: return false
-        val expected = runCatching { parts[1].fromBase64() }.getOrNull() ?: return false
+        val salt = try { parts[0].fromBase64() } catch (e: Exception) { return false }
+        val expected = try { parts[1].fromBase64() } catch (e: Exception) { return false }
         val actual = derive(pin, salt)
         if (actual.size != expected.size) return false
         var diff = 0

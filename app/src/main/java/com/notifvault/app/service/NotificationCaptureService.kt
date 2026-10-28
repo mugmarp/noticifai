@@ -3,7 +3,6 @@ package com.notifvault.app.service
 import android.app.Notification
 import android.os.Build
 import android.service.notification.NotificationListenerService
-import android.service.notification.RankingMap
 import android.service.notification.StatusBarNotification
 import com.notifvault.app.data.AppCatalog
 import com.notifvault.app.data.NotificationRecord
@@ -17,7 +16,6 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlin.Result.runCatching
 import java.util.concurrent.atomic.AtomicInteger
 
 /** Live state of the listener connection, so the UI can show a clear banner. */
@@ -90,39 +88,41 @@ class NotificationCaptureService : NotificationListenerService() {
     }
 
     override fun onNotificationRemoved(sbn: StatusBarNotification?, rankingMap: RankingMap?) {
-        sbn ?: return
-        // Only a deliberate interaction means the user has dealt with it.
-        //
-        // A notification that timed out (REASON_TIMEOUT) or was swiped away
-        // (REASON_USER_DISMISSED) was frequently never seen at all, and marking
-        // those read quietly discarded precisely the messages this app exists
-        // to rescue: they vanished from the default Unread filter. So the
-        // removal reason decides, not merely the fact of removal.
-        //
-        // The REASON_* constants have existed on StatusBarNotification since
-        // API 24, comfortably below this app's minSdk of 26.
-        val dealtWith = when (rankingMap?.getReason(sbn)) {
-            // Tapping the body. The user has certainly seen it.
-            StatusBarNotification.REASON_USER_CANCELLED -> true
+            sbn ?: return
+            // Only a deliberate interaction means the user has dealt with it.
+            //
+            // A notification that timed out (REASON_TIMEOUT) or was swiped away
+            // (REASON_USER_DISMISSED) was frequently never seen at all, and marking
+            // those read quietly discarded precisely the messages this app exists
+            // to rescue: they vanished from the default Unread filter. So the
+            // removal reason decides, not merely the fact of removal.
+            //
+            // The REASON_* constants have existed on StatusBarNotification since
+            // API 24, comfortably below this app's minSdk of 26.
+            // Use integer constants directly to avoid potential API changes.
+            val reason = try { rankingMap?.getReason(sbn) } catch (e: Exception) { sbn?.reason }
+            val dealtWith = when (reason) {
+                // Tapping the body. The user has certainly seen it.
+                1 -> true  // REASON_USER_CANCELLED
 
-            // The sending app withdrew it, which is what most messaging apps do
-            // once their chat has been opened.
-            StatusBarNotification.REASON_APP_CANCELLED -> true
+                // The sending app withdrew it, which is what most messaging apps do
+                // once their chat has been opened.
+                2 -> true  // REASON_APP_CANCELLED
 
-            // Swiped away. A normal gesture, and frequently done unread.
-            StatusBarNotification.REASON_USER_DISMISSED -> false
+                // Swiped away. A normal gesture, and frequently done unread.
+                3 -> false  // REASON_USER_DISMISSED
 
-            // Expired on its own, probably without ever being seen.
-            StatusBarNotification.REASON_TIMEOUT -> false
+                // Expired on its own, probably without ever being seen.
+                4 -> false  // REASON_TIMEOUT
 
-            // Anything the platform adds later: leave the read state alone.
-            else -> false
+                // Anything the platform adds later: leave the read state alone.
+                else -> false
+            }
+            if (!dealtWith) return
+            scope.launch {
+                try { db.setReadForKey(sbn.key, true) } catch (e: Exception) { }
+            }
         }
-        if (!dealtWith) return
-        scope.launch {
-            try { db.setReadForKey(sbn.key, true) } catch (e: Exception) { }
-        }
-    }
 
     // ---------------------------------------------------------------- capture
 
