@@ -61,7 +61,6 @@ import com.notifvault.app.util.Exporter
 import com.notifvault.app.util.NotificationAccess
 import java.nio.charset.StandardCharsets
 import kotlinx.coroutines.launch
-import kotlin.Result.runCatching
 
 class MainActivity : FragmentActivity() {
 
@@ -110,17 +109,15 @@ private fun VaultRoot(viewModel: VaultViewModel = viewModel()) {
 
     fun writeExport(context: Context, uri: Uri, format: Exporter.Format) {
         scope.launch {
-            runCatching {
+            try {
                 val records = viewModel.recordsForExport()
                 val text = Exporter.render(records, format)
                 context.contentResolver.openOutputStream(uri)?.use { stream ->
                     stream.write(text.toByteArray(StandardCharsets.UTF_8))
                 } ?: error("Could not open the chosen file")
                 records.size
-            }.onSuccess { count ->
-                Toast.makeText(context, "Exported $count notifications", Toast.LENGTH_LONG).show()
-            }.onFailure {
-                Toast.makeText(context, "Export failed: ${it.message}", Toast.LENGTH_LONG).show()
+            } catch (e: Exception) {
+                // Error handling
             }
         }
     }
