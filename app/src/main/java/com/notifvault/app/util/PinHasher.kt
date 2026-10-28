@@ -4,6 +4,7 @@ import android.util.Base64
 import java.security.SecureRandom
 import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.PBEKeySpec
+import kotlinx.coroutines.runCatching
 
 /**
  * Hashes and verifies the app-lock PIN.
