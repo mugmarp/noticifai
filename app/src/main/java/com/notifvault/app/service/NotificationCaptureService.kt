@@ -101,7 +101,10 @@ class NotificationCaptureService : NotificationListenerService() {
             // API 24, comfortably below this app's minSdk of 26.
             // Use reflection to access reason property safely across API levels.
             val reason: Int? = try {
-                sbn?.reason
+                // Use reflection to safely access the 'reason' property
+                val field = sbn.javaClass.getDeclaredField("reason")
+                field.isAccessible = true
+                field.getInt(sbn)
             } catch (e: Exception) {
                 null
             }
