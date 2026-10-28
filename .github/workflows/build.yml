@@ -27,6 +27,9 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v4
+        with:
+          api-level: 35
+          build-tools-version: 35.0.0
 
       - name: Accept Licenses
         run: yes | sdkmanager --licenses
@@ -61,6 +64,9 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v4
+        with:
+          api-level: 35
+          build-tools-version: 35.0.0
 
       - name: Accept Licenses
         run: yes | sdkmanager --licenses
@@ -96,6 +102,9 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v4
+        with:
+          api-level: 35
+          build-tools-version: 35.0.0
 
       - name: Accept Licenses
         run: yes | sdkmanager --licenses

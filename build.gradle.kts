@@ -5,6 +5,6 @@
 //   "Cannot add extension with name 'kotlin', as there is an extension already registered"
 
 plugins {
-    id("com.android.application") version "8.1.2" apply false
-    id("org.jetbrains.kotlin.plugin.compose") version "1.5.3" apply false
+    id("com.android.application") version "8.5.0" apply false
+    id("org.jetbrains.kotlin.plugin.compose") version "1.9.20" apply false
 }
