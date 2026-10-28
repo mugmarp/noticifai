@@ -1,15 +1,16 @@
 plugins {
     id("com.android.application")
+    id("org.jetbrains.kotlin.plugin.compose") version "2.4.20"
 }
 
 android {
     namespace = "com.notifvault.app"
-    compileSdk = 35
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.notifvault.app"
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
     }

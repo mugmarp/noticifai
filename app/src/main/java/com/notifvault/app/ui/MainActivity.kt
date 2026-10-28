@@ -84,7 +84,7 @@ class MainActivity : FragmentActivity() {
 private enum class Tab(val route: String, val label: String, val icon: androidx.compose.ui.graphics.vector.ImageVector) {
     History("history", "History", Icons.Filled.Notifications),
     Apps("apps", "Apps", Icons.Filled.Apps),
-    Insights("insights", "Insights", Icons.Filled.Insights),
+    Insights("insights", "Insights", Icons.Outlined.Insights),
     Settings("settings", "Settings", Icons.Filled.Settings),
 }
 

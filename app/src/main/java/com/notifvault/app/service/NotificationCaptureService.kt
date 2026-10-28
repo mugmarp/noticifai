@@ -17,6 +17,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runCatching
 import java.util.concurrent.atomic.AtomicInteger
 
 /** Live state of the listener connection, so the UI can show a clear banner. */
@@ -100,7 +101,7 @@ class NotificationCaptureService : NotificationListenerService() {
         //
         // The REASON_* constants have existed on StatusBarNotification since
         // API 24, comfortably below this app's minSdk of 26.
-        val dealtWith = when (sbn.reason) {
+        val dealtWith = when (rankingMap?.getReason(sbn)) {
             // Tapping the body. The user has certainly seen it.
             StatusBarNotification.REASON_USER_CANCELLED -> true
 
