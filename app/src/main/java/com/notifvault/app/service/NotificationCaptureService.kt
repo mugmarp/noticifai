@@ -17,7 +17,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runCatching
+import kotlin.Result.runCatching
 import java.util.concurrent.atomic.AtomicInteger
 
 /** Live state of the listener connection, so the UI can show a clear banner. */

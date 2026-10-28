@@ -5,7 +5,7 @@ import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import java.util.concurrent.ConcurrentHashMap
-import kotlinx.coroutines.runCatching
+import kotlin.Result.runCatching
 
 /** A launchable app on the device, as shown on the per-app rules screen. */
 data class InstalledApp(

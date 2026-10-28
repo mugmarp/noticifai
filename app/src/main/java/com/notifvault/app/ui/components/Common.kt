@@ -33,7 +33,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-import kotlinx.coroutines.runCatching
+import kotlin.Result.runCatching
 
 /** Human-friendly timestamps used across the History and Detail screens. */
 object TimeFormat {

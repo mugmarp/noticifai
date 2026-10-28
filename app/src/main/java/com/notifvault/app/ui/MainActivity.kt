@@ -61,7 +61,7 @@ import com.notifvault.app.util.Exporter
 import com.notifvault.app.util.NotificationAccess
 import java.nio.charset.StandardCharsets
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runCatching
+import kotlin.Result.runCatching
 
 class MainActivity : FragmentActivity() {
 
