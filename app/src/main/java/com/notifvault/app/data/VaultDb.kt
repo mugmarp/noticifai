@@ -96,7 +96,7 @@ class VaultDb private constructor(context: Context) :
      */
     fun saveAsync(record: NotificationRecord) {
         writeExecutor.execute {
-            runCatching { saveSync(record) }
+            try { saveSync(record) } catch (e: Exception) { /* ignore */ }
         }
     }
 
@@ -139,11 +139,11 @@ class VaultDb private constructor(context: Context) :
      */
     private fun setFlagAsync(id: Long, column: String, value: Boolean) {
         writeExecutor.execute {
-            runCatching {
+            try {
                 val values = ContentValues().apply { put(column, if (value) 1 else 0) }
                 writableDatabase.update(TABLE, values, "id = ?", arrayOf(id.toString()))
                 touch()
-            }
+            } catch (e: Exception) { /* ignore */ }
         }
     }
 
@@ -153,29 +153,29 @@ class VaultDb private constructor(context: Context) :
 
     fun setReadForKey(sbnKey: String, read: Boolean) {
         writeExecutor.execute {
-            runCatching {
+            try {
                 val values = ContentValues().apply { put("is_read", if (read) 1 else 0) }
                 writableDatabase.update(TABLE, values, "sbn_key = ?", arrayOf(sbnKey))
                 touch()
-            }
+            } catch (e: Exception) { /* ignore */ }
         }
     }
 
     fun delete(id: Long) {
         writeExecutor.execute {
-            runCatching {
+            try {
                 writableDatabase.delete(TABLE, "id = ?", arrayOf(id.toString()))
                 touch()
-            }
+            } catch (e: Exception) { /* ignore */ }
         }
     }
 
     fun deleteAll() {
         writeExecutor.execute {
-            runCatching {
+            try {
                 writableDatabase.delete(TABLE, null, null)
                 touch()
-            }
+            } catch (e: Exception) { /* ignore */ }
         }
     }
 
