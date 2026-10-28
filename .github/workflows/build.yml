@@ -16,17 +16,17 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 17
           cache: gradle
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v4
+        uses: android-actions/setup-android@v3
         with:
           api-level: 35
           build-tools-version: 35.0.0
@@ -41,7 +41,7 @@ jobs:
         run: ./gradlew assembleDebug --no-daemon
 
       - name: Upload Debug APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: app-debug-apk
           path: app/build/outputs/apk/debug/app-debug.apk
@@ -53,17 +53,17 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 17
           cache: gradle
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v4
+        uses: android-actions/setup-android@v3
         with:
           api-level: 35
           build-tools-version: 35.0.0
@@ -78,7 +78,7 @@ jobs:
         run: ./gradlew testDebugUnitTest --no-daemon
 
       - name: Upload Test Report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: always()
         with:
           name: test-report
@@ -91,17 +91,17 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 17
           cache: gradle
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v4
+        uses: android-actions/setup-android@v3
         with:
           api-level: 35
           build-tools-version: 35.0.0
@@ -116,7 +116,7 @@ jobs:
         run: ./gradlew lintDebug --no-daemon
 
       - name: Upload Lint Report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: always()
         with:
           name: lint-report
