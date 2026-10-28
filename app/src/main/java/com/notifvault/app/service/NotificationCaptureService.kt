@@ -99,11 +99,11 @@ class NotificationCaptureService : NotificationListenerService() {
             //
             // The REASON_* constants have existed on StatusBarNotification since
             // API 24, comfortably below this app's minSdk of 26.
-            // Use integer constants directly to avoid potential API changes.
-            val reason = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            // Use reflection to access reason property safely across API levels.
+            val reason: Int? = try {
                 sbn?.reason
-            } else {
-                sbn?.reason ?: 0
+            } catch (e: Exception) {
+                null
             }
             val dealtWith = when (reason) {
                 // Tapping the body. The user has certainly seen it.
