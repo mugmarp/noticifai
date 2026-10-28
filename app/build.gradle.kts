@@ -1,8 +1,5 @@
 plugins {
     id("com.android.application")
-    // Compose needs the Kotlin Compose compiler plugin. It is applied per-module;
-    // its version tracks the Kotlin version used by AGP's built-in Kotlin support.
-    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
@@ -33,6 +30,10 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.3"
     }
 
     buildFeatures {
