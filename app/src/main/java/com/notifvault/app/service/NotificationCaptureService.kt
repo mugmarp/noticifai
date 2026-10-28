@@ -3,6 +3,7 @@ package com.notifvault.app.service
 import android.app.Notification
 import android.os.Build
 import android.service.notification.NotificationListenerService
+import android.service.notification.RankingMap
 import android.service.notification.StatusBarNotification
 import com.notifvault.app.data.AppCatalog
 import com.notifvault.app.data.NotificationRecord
@@ -70,7 +71,7 @@ class NotificationCaptureService : NotificationListenerService() {
         // Notifications posted while the service was disconnected are still in
         // the shade, so seed from them rather than starting with an empty vault.
         scope.launch {
-            runCatching { activeNotifications?.forEach { handlePosted(it, seed = true) } }
+            try { activeNotifications?.forEach { handlePosted(it, seed = true) } } catch (e: Exception) { }
             maybeSweep()
         }
     }
@@ -82,7 +83,9 @@ class NotificationCaptureService : NotificationListenerService() {
 
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
         sbn ?: return
-        scope.launch { handlePosted(sbn, seed = false) }
+        scope.launch {
+            try { handlePosted(sbn, seed = false) } catch (e: Exception) { }
+        }
     }
 
     override fun onNotificationRemoved(sbn: StatusBarNotification?, rankingMap: RankingMap?) {
@@ -116,7 +119,7 @@ class NotificationCaptureService : NotificationListenerService() {
         }
         if (!dealtWith) return
         scope.launch {
-            runCatching { db.setReadForKey(sbn.key, true) }
+            try { db.setReadForKey(sbn.key, true) } catch (e: Exception) { }
         }
     }
 
@@ -141,7 +144,7 @@ class NotificationCaptureService : NotificationListenerService() {
         val record = extract(sbn) ?: return
         if (settings.isIgnored(record)) return
 
-        runCatching { db.saveSync(record) }
+        try { db.saveSync(record) } catch (e: Exception) { }
         CaptureBus.noteCaptured()
         maybeSweep()
     }
